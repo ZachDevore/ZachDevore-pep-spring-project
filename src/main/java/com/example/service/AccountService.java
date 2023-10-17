@@ -19,6 +19,18 @@ public class AccountService {
 
     // Add a new account
     public ResponseEntity<Account> addNewUser(Account account) {
-        return ResponseEntity.ok().body(accountRepository.save(account));
+        /*
+         * The username is not already taken
+         * The username is not blank
+         * The password is at least 4 characters long
+         */
+        if (accountRepository.getAccountByUsername(account.getUsername()).isPresent()) {
+            return ResponseEntity.status(409).body(null);
+            
+        } else if (account.getUsername() != null && account.getPassword().length() >= 4) {
+            return ResponseEntity.ok().body(accountRepository.save(account));
+        } else {
+            return ResponseEntity.status(400).body(null);
+        }
     }
 }
