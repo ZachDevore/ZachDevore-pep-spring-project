@@ -1,6 +1,7 @@
 package com.example.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.example.entity.Account;
@@ -17,7 +18,7 @@ public class AccountService {
     }
 
     // Add a new account
-    public Account addNewUser(Account account) {
-        return accountRepository.save(account);
+    public ResponseEntity<Account> addNewUser(Account account) {
+        return ResponseEntity.ok().body(accountRepository.save(account));
     }
 }

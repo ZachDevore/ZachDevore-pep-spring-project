@@ -2,6 +2,7 @@ package com.example.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,8 +32,8 @@ public class SocialMediaController {
 
     // Our API should be able to process new User registrations
     @PostMapping("/register")
-    public void registerNewUser(@RequestBody Account account) {
-        accountService.addNewUser(account);
+    public ResponseEntity<Account> registerNewUser(@RequestBody Account account) {
+        return accountService.addNewUser(account);
     }
 
     // Our API should be able to process User logins
