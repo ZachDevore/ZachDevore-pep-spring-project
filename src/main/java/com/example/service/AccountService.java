@@ -1,5 +1,7 @@
 package com.example.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -32,5 +34,14 @@ public class AccountService {
         } else {
             return ResponseEntity.status(400).body(null);
         }
+    }
+
+    // Log In
+    public ResponseEntity<Optional<Account>> logIn(String username, String password) {
+        if (accountRepository.logIn(username, password).isPresent()) {
+            return ResponseEntity.ok().body(accountRepository.logIn(username, password));
+        } else {
+            return ResponseEntity.status(401).body(null);
+        } 
     }
 }

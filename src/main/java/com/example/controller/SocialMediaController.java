@@ -1,7 +1,10 @@
 package com.example.controller;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,6 +40,10 @@ public class SocialMediaController {
     }
 
     // Our API should be able to process User logins
+    @PostMapping("/login")
+    public ResponseEntity<Optional<Account>> logIn(@RequestBody Account account) {
+        return accountService.logIn(account.getUsername(), account.getPassword());
+    }
 
     // Our API should be able to process the creation of new messages
 
