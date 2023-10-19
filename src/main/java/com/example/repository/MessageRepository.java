@@ -22,4 +22,5 @@ public interface MessageRepository extends JpaRepository<Message, Integer>{
     @Query(value ="SELECT * FROM message WHERE posted_by = :id", nativeQuery = true)
     List<Message> getAllMessagesById(int id);
 
+    // Pushing for gitlab bug
 }
