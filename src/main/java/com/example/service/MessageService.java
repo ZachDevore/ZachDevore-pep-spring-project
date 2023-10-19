@@ -19,6 +19,17 @@ public class MessageService {
 
     // Create a new message
     public ResponseEntity<Message> createNewMessage(Message message) {
-        return ResponseEntity.ok().body(messageRepository.save(message));
+        /*
+         * message_text is not blank
+         * message_text under 255 characters
+         * posted_by refers to an existing user
+         */
+        if (message.getMessage_text() != null
+            && message.getMessage_text().length() < 255) {
+                return ResponseEntity.ok().body(messageRepository.save(message));
+            } else {
+                return ResponseEntity.status(400).body(null);
+            }
+        
     }
 }
