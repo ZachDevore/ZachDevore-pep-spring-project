@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.entity.Account;
@@ -75,11 +76,15 @@ public class SocialMediaController {
 
     // Our API should be able to update a message text identified by a message ID
     @PatchMapping("/messages/{message_id}")
-    public ResponseEntity<Integer> updateMessageById(@PathVariable Integer message_id, @RequestBody String messageText) {
-        return messageService.updateMessageById(message_id, messageText);
+    public ResponseEntity<Integer> updateMessageById(@PathVariable int message_id, @RequestBody Message newMessage) {
+        return messageService.updateMessageById(message_id, newMessage.getMessage_text());
     }
+    
 
     // Our API should be able to retrieve all messages written by a particular user
-
+    @GetMapping("/accounts/{account_id}/messages")
+    public ResponseEntity<List<Message>> getAllMessagesByUser(@PathVariable int account_id) {
+        return messageService.getAllMessagesByUser(account_id);
+    }
     
 }

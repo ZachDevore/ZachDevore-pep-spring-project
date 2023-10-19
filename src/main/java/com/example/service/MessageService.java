@@ -8,6 +8,7 @@ import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.entity.Message;
 import com.example.repository.AccountRepository;
@@ -50,7 +51,12 @@ public class MessageService {
 
     // Get message by id
     public ResponseEntity<Message> getMessageById(int message_id) {
-        return ResponseEntity.ok().body(messageRepository.findById(message_id).get());
+        if (messageRepository.findById(message_id).isPresent()) {
+            return ResponseEntity.ok().body(messageRepository.findById(message_id).get());
+        } else {
+            return ResponseEntity.ok().body(null);
+        }
+        
     }
 
     // Delete message by id
@@ -64,12 +70,31 @@ public class MessageService {
     }
 
     // Update message by id
-    public ResponseEntity<Integer> updateMessageById(Integer message_id, String messageText) {
+    public ResponseEntity<Integer> updateMessageById(int message_id, String messageText) {
         /*
          * message_id already exist
          * message_text is not blank
          * message_text not over 255 characters
          */
-        return ResponseEntity.ok().body(messageRepository.updateMessageById(message_id, messageText));
+          
+        if (messageRepository.findById(message_id).isPresent()
+            && !messageText.isEmpty()
+            && messageText.length() <= 255) {
+
+            Message messageToBeUpdated = messageRepository.getById(message_id);
+            messageToBeUpdated.setMessage_text(messageText);
+            messageRepository.save(messageToBeUpdated);
+
+            return ResponseEntity.ok().body(1);
+        } else {
+            return ResponseEntity.status(400).body(null);
+        }
+    
+    }
+
+    // Get all messages by account id
+    public ResponseEntity<List<Message>> getAllMessagesByUser(int id) {
+        List<Message> messages = messageRepository.getAllMessagesById(id);
+        return ResponseEntity.ok().body(messages);
     }
 }
