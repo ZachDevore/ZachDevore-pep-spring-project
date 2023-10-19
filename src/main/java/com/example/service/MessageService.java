@@ -76,7 +76,6 @@ public class MessageService {
          * message_text is not blank
          * message_text not over 255 characters
          */
-          
         if (messageRepository.findById(message_id).isPresent()
             && !messageText.isEmpty()
             && messageText.length() <= 255) {
