@@ -1,5 +1,10 @@
 package com.example.service;
 
+
+import java.util.List;
+import java.util.Optional;
+
+import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -35,5 +40,36 @@ public class MessageService {
             } else {
                 return ResponseEntity.status(400).body(null);
             }
+    }
+
+    // Get all messages
+    public ResponseEntity<List<Message>> getAllMessages() {
+        List<Message> messages = messageRepository.findAll();
+        return ResponseEntity.ok().body(messages);
+    }
+
+    // Get message by id
+    public ResponseEntity<Message> getMessageById(int message_id) {
+        return ResponseEntity.ok().body(messageRepository.findById(message_id).get());
+    }
+
+    // Delete message by id
+    public ResponseEntity<Integer> deleteMessageById(int message_id) {
+        if (messageRepository.findById(message_id).isPresent()) {
+            messageRepository.deleteById(message_id);
+            return ResponseEntity.ok().body(1);
+        } else {
+            return ResponseEntity.ok(0);
+        }
+    }
+
+    // Update message by id
+    public ResponseEntity<Integer> updateMessageById(Integer message_id, String messageText) {
+        /*
+         * message_id already exist
+         * message_text is not blank
+         * message_text not over 255 characters
+         */
+        return ResponseEntity.ok().body(messageRepository.updateMessageById(message_id, messageText));
     }
 }
