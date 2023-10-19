@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.entity.Account;
+import com.example.entity.Message;
 import com.example.service.AccountService;
 import com.example.service.MessageService;
 
@@ -46,7 +47,10 @@ public class SocialMediaController {
     }
 
     // Our API should be able to process the creation of new messages
-
+    @PostMapping("/messages")
+    public ResponseEntity<Message> createNewMessage(@RequestBody Message message) {
+        return messageService.createNewMessage(message);
+    }
     // Our API should be able to retrieve all messages
 
     // Our API should be able to retrieve a message by its ID
